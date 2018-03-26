@@ -71,9 +71,9 @@
                     <div class="item-quantity">
                       <div class="select-self select-self-open">
                         <div class="quantity">
-                          <a href="javascript:void 0"></a>
-                          <input type="text" value="0" disabled>
-                          <a href="javascript:void 0"></a>
+                          <a href="javascript:void 0">-</a>&nbsp;&nbsp;
+                          <input style="width: 80px;" type="text" value="0" disabled/>&nbsp;&nbsp;
+                          <a href="javascript:void 0">+</a>
                         </div>
                       </div>
                       <div class="item-stock">有货</div>
@@ -148,6 +148,17 @@
     name: "card",
     data() {
       return {}
+    },
+    mounted: function() {
+      this.cartView()
+    },
+    methods: {
+      cartView: function() {
+        let _this = this
+        this.$http.get("/api/getEnum/CustomerStatusEnum").then(function(res) {
+          console.log(res)
+        })
+      }
     }
   }
 </script>
