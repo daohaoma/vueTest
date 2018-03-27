@@ -44,43 +44,43 @@
                 </ul>
               </div>
               <ul class="cart-item-list">
-                <li>
+                <li v-for='(item, index) in productList' v-bind:key="index">
                   <div class="cart-tab-1">
                     <div class="cart-item-check">
-                      <a href="javascript:void 0" class="item-check-btn">
+                      <a href="javascript:void 0" class="item-check-btn" :class="{'check': item.checked}" @click="selectProduct(item)">
                         <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                       </a>
                     </div>
                     <div class="cart-item-pic">
-                      <img src="../assets/res/goods-1.jpg" alt="烟">
+                      <img :src='productList.productImage' alt="烟">
                     </div>
                     <div class="cart-item-title">
-                      <div class="item-name">黄鹤楼香烟</div>
+                      <div class="item-name">{{ item.productName }}</div>
                     </div>
                     <div class="item-include">
                       <dl>
                         <dt>赠送:</dt>
-                        <dd>打火机</dd>
+                        <dd v-for='(val, i) in productList.parts' :key='i'>{{ val.partsName }}</dd>
                       </dl>
                     </div>
                   </div>
                   <div class="cart-tab-2">
-                    <div class="item-price"></div>
+                    <div class="item-price">{{ item.productPrice | formatMoney }}</div>
                   </div>
                   <div class="cart-tab-3">
                     <div class="item-quantity">
                       <div class="select-self select-self-open">
                         <div class="quantity">
-                          <a href="javascript:void 0"></a>
-                          <input type="text" value="0" disabled>
-                          <a href="javascript:void 0"></a>
+                          <a href="javascript:void 0" @click="changeMoney(item, -1)">-</a>&nbsp;&nbsp;
+                          <input style="width: 80px;" type="text" :value="item.productQuantity" disabled/>&nbsp;&nbsp;
+                          <a href="javascript:void 0" @click="changeMoney(item, 1)">+</a>
                         </div>
                       </div>
                       <div class="item-stock">有货</div>
                     </div>
                   </div>
                   <div class="cart-tab-4">
-                    <div class="item-price-total">0.00</div>
+                    <div class="item-price-total">{{ item.productPrice * item.productQuantity | formatMoney }}</div>
                   </div>
                   <div class="cart-tab-5">
                     <div class="cart-item-operation">
@@ -107,7 +107,7 @@
               </div>
               <div class="item-all-del">
                 <a href="javascript:void 0" class="item-del-btn">
-                  <span>取消全选</span>
+                  <span>&nbsp;&nbsp;&nbsp;取消全选</span>
                 </a>
               </div>
             </div>
@@ -147,7 +147,44 @@
   export default {
     name: "card",
     data() {
-      return {}
+      return {
+        productList: [],
+      }
+    },
+    mounted: function() {
+      this.cartView()
+    },
+    methods: {
+      cartView: function() {
+        let _this = this
+        this.$http.get("../../static/cartData.json").then(function(res) {
+          _this.productList = res.body.result.list;
+        })
+      },
+      changeMoney: (product, way) => {
+        if(way > 0) {
+          product.productQuantity++
+        } else {
+          product.productQuantity--
+          if(product.productQuantity < 1) {
+            product.productQuantity = 1
+          }
+        }
+      },
+      selectProduct: function(item) {
+        if (typeof item.checked == 'undefined') {
+          // Vue.set(item, "checked", true);
+          this.$set(item, "checked", true);
+        }
+        else {
+          item.checked = !item.checked;
+        }
+      }
+    },
+    filters:  {
+      formatMoney: function(value) {
+        return "¥" + value.toFixed(2);
+      }
     }
   }
 </script>
