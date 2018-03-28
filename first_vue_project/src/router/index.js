@@ -1,21 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '../components/HelloWorld'
-import Cart from '../components/cart.vue'
+import Cart from '../pages/cart.vue'
+import Address from '../pages/address.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-      path: '/HelloWorld',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
-    {
       path: '/Cart',
       name: 'Cart',
       component: Cart
+    },
+    {
+      path: '/Address',
+      name: 'Address',
+      component: Address
     }
   ]
 })
