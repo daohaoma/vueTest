@@ -52,7 +52,7 @@
                       </a>
                     </div>
                     <div class="cart-item-pic">
-                      <img :src='productList.productImage' alt="烟">
+                      <img :src='item.productImage' alt="烟">
                     </div>
                     <div class="cart-item-title">
                       <div class="item-name">{{ item.productName }}</div>
@@ -80,11 +80,11 @@
                     </div>
                   </div>
                   <div class="cart-tab-4">
-                    <div class="item-price-total">{{ item.productPrice * item.productQuantity | formatMoney }}</div>
+                    <div class="item-price-total">{{ item.productPrice * item.productQuantity | money('元') }}</div>
                   </div>
                   <div class="cart-tab-5">
                     <div class="cart-item-operation">
-                      <a href="javascript:void 0" class="item-edit-btn">
+                      <a href="javascript:void 0" class="item-edit-btn" @click="delConfirm(item)">
                         <svg class="icon icon-del"><use xlink:href="#icon-del" ></use></svg>
                       </a>
                     </div>
@@ -113,7 +113,7 @@
             </div>
             <div class="cart-foot-r">
               <div class="item-total">
-                Item total: <span class="total-price">{{ totalPrice | formatMoney }}</span>
+                Item total: <span class="total-price">{{ totalPrice | money('元') }}</span>
               </div>
               <div class="next-btn-wrap">
                 <a href="javascrit:;" class="btn btn--red" style="width: 200px">结账</a>
@@ -123,22 +123,25 @@
         </div>
       </div>
 
-      <div class="md-modal modal-msg md-modal-transition" id="showModal">
+      <div class="md-modal modal-msg md-modal-transition" id="showModal" :class="{'md-show': delFlag}">
         <div class="md-modal-inner">
           <div class="md-top">
-            <button class="md-close">关闭</button>
+            <button class="md-close" @click="delFlag=false">关闭</button>
           </div>
           <div class="md-content">
             <div class="confirm-tips">
               <p id="cusLanInfo">你确认删除此订单信息吗?</p>
             </div>
             <div class="btn-wrap col-2">
-              <button class="btn btn--m" id="btnModalConfirm">Yes</button>
-              <button class="btn btn--m btn--red" id="btnModalCancel">No</button>
+              <button class="btn btn--m" id="btnModalConfirm" @click="delProduct">Yes</button>
+              <button class="btn btn--m btn--red" id="btnModalCancel" @click="delFlag=false">No</button>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="md-overlay" v-if="delFlag"></div>
+
     </div>
   </div>
 </template>
@@ -151,6 +154,8 @@
         totalPrice: 0,
         productList: [],
         checkAllFlag: false,
+        delFlag: false,
+        productVal: '',
       }
     },
     mounted: function() {
@@ -202,11 +207,23 @@
             this.totalPrice += item.productPrice * item.productQuantity
           }
         })
+      },
+      delConfirm: function(val) {
+        this.delFlag = true
+        this.productVal = val
+      },
+      delProduct: function() {
+        let index = this.productList.indexOf(this.productVal)
+        this.productList.splice(index, 1)
+        this.delFlag = false
       }
     },
     filters:  {
       formatMoney: function(value) {
         return "¥" + value.toFixed(2);
+      },
+      money: function(value, type) {
+        return "¥" + value.toFixed(2) + type;
       }
     }
   }
