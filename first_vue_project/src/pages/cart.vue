@@ -115,7 +115,7 @@
               <div class="item-total">
                 Item total: <span class="total-price">{{ totalPrice | money('元') }}</span>
               </div>
-              <div class="next-btn-wrap">
+              <div class="next-btn-wrap" @click="goToAddress">
                 <a href="javascrit:;" class="btn btn--red" style="width: 200px">结账</a>
               </div>
             </div>
@@ -216,6 +216,9 @@
         let index = this.productList.indexOf(this.productVal)
         this.productList.splice(index, 1)
         this.delFlag = false
+      },
+      goToAddress: function() {
+        this.$router.push({path:'/address'})
       }
     },
     filters:  {
