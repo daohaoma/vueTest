@@ -60,7 +60,7 @@
                     <div class="item-include">
                       <dl>
                         <dt>赠送:</dt>
-                        <dd v-for='(val, i) in productList.parts' :key='i'>{{ val.partsName }}</dd>
+                        <dd v-for='(val, i) in item.parts' :key='i' v-text='val.partsName'></dd>
                       </dl>
                     </div>
                   </div>
@@ -99,21 +99,21 @@
             <div class="cart-foot-l">
               <div class="item-all-check">
                 <a href="javascript:void 0">
-                  <span class="item-check-btn" >
+                  <span class="item-check-btn" :class="{'check': checkAllFlag}" @click="checkAll(true)">
                     <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                   </span>
-                  <span>全选</span>
+                  <span v-show="!checkAllFlag">全选</span>
                 </a>
               </div>
               <div class="item-all-del">
-                <a href="javascript:void 0" class="item-del-btn">
-                  <span>&nbsp;&nbsp;&nbsp;取消全选</span>
+                <a href="javascript:void 0" class="item-del-btn" @click="checkAll(false)">
+                  <span v-show="checkAllFlag">取消全选</span>
                 </a>
               </div>
             </div>
             <div class="cart-foot-r">
               <div class="item-total">
-                Item total: <span class="total-price"></span>
+                Item total: <span class="total-price">{{ totalPrice | formatMoney }}</span>
               </div>
               <div class="next-btn-wrap">
                 <a href="javascrit:;" class="btn btn--red" style="width: 200px">结账</a>
@@ -148,7 +148,9 @@
     name: "card",
     data() {
       return {
+        totalPrice: 0,
         productList: [],
+        checkAllFlag: false,
       }
     },
     mounted: function() {
@@ -156,12 +158,11 @@
     },
     methods: {
       cartView: function() {
-        let _this = this
-        this.$http.get("../../static/cartData.json").then(function(res) {
-          _this.productList = res.body.result.list;
+        this.$http.get("../../static/cartData.json").then(res => {
+          this.productList = res.body.result.list;
         })
       },
-      changeMoney: (product, way) => {
+      changeMoney: function(product, way) {
         if(way > 0) {
           product.productQuantity++
         } else {
@@ -170,15 +171,37 @@
             product.productQuantity = 1
           }
         }
+        this.countTotalPrice()
       },
       selectProduct: function(item) {
-        if (typeof item.checked == 'undefined') {
-          // Vue.set(item, "checked", true);
-          this.$set(item, "checked", true);
+        // 判断data里面checked这个属性存不存在
+        if (typeof item.checked === 'undefined') {
+          // Vue.set(item, "checked", true); // 全局注册
+          this.$set(item, "checked", true); // 局部注册，往item里面添加checked变量，并且赋值为true
         }
         else {
           item.checked = !item.checked;
         }
+        this.countTotalPrice()
+      },
+      checkAll: function(flag) {
+        this.checkAllFlag = flag
+        this.productList.forEach((item, index) => {
+          if(typeof item.checked === 'undefined', this.checkAllFlag) {
+            this.$set(item, 'checked', this.checkAllFlag)
+          } else {
+            item.checked = this.checkAllFlag
+          }
+        })
+        this.countTotalPrice()
+      },
+      countTotalPrice: function() {
+        this.totalPrice = 0
+        this.productList.forEach((item, index) => {
+          if(item.checked) {
+            this.totalPrice += item.productPrice * item.productQuantity
+          }
+        })
       }
     },
     filters:  {
