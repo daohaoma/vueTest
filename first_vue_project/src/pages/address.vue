@@ -56,7 +56,7 @@
                   </a>
                 </div>
                 <div class="addr-opration addr-del">
-                  <a href="javascript:;" class="addr-del-btn">
+                  <a href="javascript:;" class="addr-del-btn" @click="delConfirm(item)">
                     <svg class="icon icon-del"><use xlink:href="#icon-del"></use></svg>
                   </a>
                 </div>
@@ -77,9 +77,18 @@
             </ul>
           </div>
 
-          <div class="shipping-addr-more">
+          <div class="shipping-addr-more" v-show="!showMoreAddress">
             <a class="addr-more-btn up-down-btn" href="javascript:" @click="showAddress">
               more
+              <i class="i-up-down">
+                <i class="i-up-down-l"></i>
+                <i class="i-up-down-r"></i>
+              </i>
+            </a>
+          </div>
+          <div class="shipping-addr-more" v-show="showMoreAddress">
+            <a class="addr-more-btn up-down-btn" href="javascript:" @click="hiddenAddress">
+              close
               <i class="i-up-down">
                 <i class="i-up-down-l"></i>
                 <i class="i-up-down-r"></i>
@@ -109,22 +118,23 @@
         <div class="next-btn-wrap">
           <a href="javascript:;" class="btn btn--red">下一步</a>
         </div>
-        <div class="md-modal modal-msg md-modal-transition" id="showModal">
+        <div class="md-modal modal-msg md-modal-transition" id="showModal" :class="{'md-show': delModal}">
           <div class="md-modal-inner">
             <div class="md-top">
-              <button class="md-close">关闭</button>
+              <button class="md-close" @click="delModal=false">关闭</button>
             </div>
             <div class="md-content">
               <div class="confirm-tips">
                 <p id="cusLanInfo">你确认删除此配送地址信息吗?</p>
               </div>
               <div class="btn-wrap col-2">
-                <button class="btn btn--m" id="btnModalConfirm">Yes</button>
-                <button class="btn btn--m btn--red" id="btnModalCancel">No</button>
+                <button class="btn btn--m" id="btnModalConfirm" @click="delAddress">Yes</button>
+                <button class="btn btn--m btn--red" id="btnModalCancel" @click="delModal=false">No</button>
               </div>
             </div>
           </div>
         </div>
+        <div class="md-overlay" v-if="delModal"></div>
         <div class="md-modal modal-msg md-modal-transition" id="showModalw">
           <div class="md-modal-inner">
             <div class="md-top">
@@ -184,6 +194,9 @@
         limitNum: 3,
         currentIndex: 0,
         shippingMethod: 1,
+        delModal: false,
+        addressVal: '',
+        showMoreAddress: false,
       }
     },
     mounted: function() {
@@ -205,6 +218,11 @@
       },
       showAddress: function() {
         this.limitNum = this.addressList.length
+        this.showMoreAddress = true
+      },
+      hiddenAddress: function() {
+        this.limitNum = 3
+        this.showMoreAddress = false
       },
       setDefault: function(addressId) {
         this.addressList.forEach((item, index) => {
@@ -214,6 +232,15 @@
             item.isDefault = false
           }
         })
+      },
+      delConfirm: function(item) {
+        this.delModal = true
+        this.addressVal = item
+      },
+      delAddress: function() {
+        let index = this.addressList.indexOf(this.addressVal)
+        this.addressList.splice(index, 1)
+        this.delModal = false
       }
     },
   }
