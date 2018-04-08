@@ -1,6 +1,6 @@
-# first_vue_project
+# vue-tencent
 
-> my first vue project
+> A Vue.js project
 
 ## Build Setup
 
@@ -8,7 +8,7 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:2223
 npm run dev
 
 # build for production with minification
@@ -19,15 +19,3 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-
-
-创建 electron-vue 应用
-# Install vue-cli and scaffold boilerplate
-npm install -g vue-cli
-vue init simulatedgreg/electron-vue my-project
-
-# Install dependencies and run your app
-cd my-project
-yarn # or npm install
-yarn run dev # or npm run dev
