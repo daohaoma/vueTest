@@ -3,7 +3,7 @@
     <div class="content">
       <h1>TOP250电影排名</h1>
       <div class="film-card">
-        <filmCard :movielist='this.movieList' @page='page' :total='total'></filmCard>
+        <filmCard :movielist='this.movieList' @page='page' :total='total' :num='num'></filmCard>
       </div>
     </div>
   </div>
@@ -20,6 +20,7 @@
         count: 10,
         current: 1,
         total: 1,
+        num: 1,
       }
     },
     mounted: function() {
@@ -36,6 +37,7 @@
           console.log(response.data)
           this.movieList = response.data.subjects
           this.total = Math.round(response.data.total/this.count)
+          this.num = response.data.start
           // console.log( typeof Math.round(response.data.total/this.count))
         })
       },

@@ -1,6 +1,7 @@
 <template>
   <div class="card-wrap">
     <div class="card-content" v-for='(item, index) in movielist' :key='index'>
+      <div class="film-num">{{ num+index+1 }}</div>
       <div class="film-img" style="width: 150px; height: 200px">
         <img :src='item.images.small' :alt='item.title' style="width: 100%; height: 200px">
       </div>
@@ -77,6 +78,10 @@
       total: {
         type: Number,
         default: 0,
+      },
+      num: {
+        type: Number,
+        default: 1,
       }
     },
     // mounted: function() {
