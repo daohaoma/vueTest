@@ -7,7 +7,7 @@
       </div>
       <div class="film-content">
         <div class="film-name">
-          <a href="javascript:" style="text-decoration : none; color: #9933FF">
+          <a href="javascript:" style="text-decoration : none; color: #9933FF" @click="goToDetail(item.id, index)">
             {{ item.title }}&nbsp;/&nbsp;{{ item.original_title }}
           </a>
         </div>
@@ -97,6 +97,10 @@
       goNext: function() {
         this.current++
         this.$emit('page', this.current)
+      },
+      goToDetail: function(id, index) {
+        console.log(id,index)
+        this.$router.push({path:`/movieDetail/${id}`, query: {num: index}})
       }
     }
   }
