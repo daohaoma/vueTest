@@ -9,6 +9,10 @@
   border-top: 1px dashed #c0c0c0;
   padding-top: 10px;
 }
+.film-num {
+  width: 40px;
+  color: #808080;
+}
 .film-content {
   width: 80%;
   margin-left: 20px;
