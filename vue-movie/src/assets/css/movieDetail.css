@@ -39,11 +39,11 @@
   justify-content: space-between;
 }
 .con-content-img img {
-  width: 130px;
+  width: 150px;
   height: 200px;
 }
 .con-content-detail {
-  width: 500px;
+  width: 600px;
   padding: 10px;
 }
 .con-content-score {
@@ -80,8 +80,133 @@
   font-size: 14px;
 }
 
-
 /* 4 */
+.con-score {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+.con-score-rating {
+  width:124px;
+	height:19px;
+	margin:0 0 20px 0;
+	padding:0;
+	list-style:none;
+	clear:both;
+	position:relative;
+  background: url(../img/star.png) no-repeat 0 0;
+}
+.con-score-rating li {
+  cursor: pointer;
+ /*ie5 mac doesn't like it if the list is floated\*/
+	float:left;
+	/* end hide*/
+	text-indent:-999em;
+}
+.con-score-rating li a {
+	width:25px;
+	height:19px;
+	text-decoration:none;
+	z-index: 200;
+}
+.one a { position:absolute; left:0;top:0;}
+.two a { position:absolute; left:25px;top:0;}
+.three a { position:absolute; left:50px;top:0;}
+.four a { position:absolute; left:75px;top:0;}
+.five a { position:absolute; left:100px;top:0;}
+.con-score-rating li a:hover {
+  z-index:2;
+  cursor: pointer;
+	width:125px;
+	height:19px;
+	overflow:hidden;
+	left:0;
+}
+.one a:hover {background: url(../img/star.png) no-repeat 0 -19px;}/* 位移，坐标是从元素左上方开始算的，第一个0是左边0，第二个是上面0 */
+.two a:hover {background: url(../img/star.png) no-repeat 0 -38px;}
+.three a:hover {background: url(../img/star.png) no-repeat 0 -57px}
+.four a:hover {background: url(../img/star.png) no-repeat 0 -76px}
+.five a:hover {background: url(../img/star.png) no-repeat 0 -95px}
+
+
+.no-star li a {
+  background: url(../img/star.png) no-repeat 0 0;
+  z-index:2;
+  cursor: pointer;
+	width:124px;
+	height:19px;
+	overflow:hidden;
+	left:0;
+}
+.one-star li a {
+  background: url(../img/star.png) no-repeat 0 -19px;
+  z-index:2;
+  cursor: pointer;
+	width:124px;
+	height:19px;
+	overflow:hidden;
+	left:0;
+}
+.two-star li a {
+  background: url(../img/star.png) no-repeat 0 -38px;
+  z-index:2;
+  cursor: pointer;
+	width:124px;
+	height:19px;
+	overflow:hidden;
+	left:0;
+}
+.three-star li a {
+  background: url(../img/star.png) no-repeat 0 -57px;
+  z-index:2;
+  cursor: pointer;
+	width:124px;
+	height:19px;
+	overflow:hidden;
+	left:0;
+}
+.four-star li a {
+  background: url(../img/star.png) no-repeat 0 -76px;
+  z-index:2;
+  cursor: pointer;
+	width:124px;
+	height:19px;
+	overflow:hidden;
+	left:0;
+}
+.five-star li a {
+  background: url(../img/star.png) no-repeat 0 -95px;
+  z-index:2;
+  cursor: pointer;
+	width:124px;
+	height:19px;
+	overflow:hidden;
+	left:0;
+}
+
+.poor {
+  color: #A8A8A8;
+  font-size: 16px;
+}
+.substandard {
+  color: #006600;
+  font-size: 16px;
+}
+.ordinary {
+  color: #0033FF;
+  font-size: 16px;
+}
+.good {
+  color: #9933CC;
+  font-size: 16px;
+}
+.perfect {
+  color: #FF6600;
+  font-size: 16px;
+}
+
+
+
 /* 5 */
 
 

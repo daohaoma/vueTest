@@ -2,12 +2,15 @@
   <div class="detail-wrap">
     <!-- 1 -->
     <div class="con-theme">
-      <span class="con-theme-content">NO.{{ this.$route.query.num+1 }}&nbsp;&nbsp;豆瓣电影Top250</span>
+      <span class="con-theme-content">NO.{{ parseInt(this.$route.query.num) + 1 }}&nbsp;&nbsp;豆瓣电影Top250</span>
     </div>
 
     <!-- 2 -->
     <div class="con-title">
-      <span class="con-title-name">{{ movieDetail.title }} {{ movieDetail.original_title }}</span>&nbsp;&nbsp;<span class="con-title-year">{{ (movieDetail.year) }}</span>
+      <span class="con-title-name">
+        {{ movieDetail.title }} {{ movieDetail.original_title }}
+      </span>&nbsp;&nbsp;
+      <span class="con-title-year">({{ movieDetail.year }})</span>
     </div>
 
     <!-- 3 -->
@@ -74,12 +77,27 @@
             <div class="con-content-score-star-evaluate-num gray">{{ movieDetail.ratings_count }}人评价过</div>
           </div>
         </div>
-        <div class="con-content-score-histogram"></div>
+        <div class="con-content-score-histogram">此处为统计图。。。</div>
       </div>
     </div>
 
-    <!-- 4 -->
-    <div class="con-score"></div>
+    <!-- 4. 星星评分，代码烂的一批 -->
+    <div class="con-score">
+      <div>我要评分：</div>
+      <div style="padding: 2px" id="nostar">
+        <ul class="con-score-rating">
+          <li class="one"><a href="javascript:void(0)" @mouseover ="showEvaluate(1)" @mouseout="clearEvaluate" @click="markStar(1)" >很差</a></li>
+          <li class="two"><a href="javascript:void(0)" @mouseover="showEvaluate(2)" @mouseout="clearEvaluate" @click="markStar(2)" >较差</a></li>
+          <li class="three"><a href="javascript:void(0)" @mouseover="showEvaluate(3)" @mouseout="clearEvaluate" @click="markStar(3)" >一般</a></li>
+          <li class="four"><a href="javascript:void(0)" @mouseover="showEvaluate(4)" @mouseout="clearEvaluate" @click="markStar(4)" >较好</a></li>
+          <li class="five"><a href="javascript:void(0)" @mouseover="showEvaluate(5)" @mouseout="clearEvaluate" @click="markStar(5)" >很好</a></li>
+        </ul>
+      </div>
+      <div id="star" style="margin-left: 5px;">{{ evaluate }}</div>
+      <div @click="onClear" style="margin-left: 5px; cursor: pointer;" v-show="click">
+        取消
+      </div>
+    </div>
 
     <!-- 5 -->
     <div class="con-controduct"></div>
@@ -91,6 +109,8 @@
     data() {
       return{
         movieDetail: {},
+        evaluate: '',
+        click: false,
       }
     },
     mounted: function() {
@@ -103,8 +123,56 @@
         { headers: {}, emulateJSON: true }).then((res) => {
           console.log(res.data)
           this.movieDetail = res.data
-          console.log(this.$route)
         })
+        console.log(this.$route.query.num)
+      },
+      showEvaluate: function(val) {
+        let star = document.getElementById('star')
+        let nostar = document.getElementById('nostar')
+        console.log(this.click, '经过')
+        if (this.click === false) {
+          nostar.className = '123'
+        }
+        if(val === 1) {
+          this.evaluate = '很差'
+          star.className = 'poor'
+        } else if(val === 2) {
+          this.evaluate = '较差'
+          star.className = 'substandard'
+        } else if(val === 3) {
+          this.evaluate = '一般'
+          star.className = 'ordinary'
+        } else if(val === 4) {
+          this.evaluate = '较好'
+          star.className = 'good'
+        } else {
+          this.evaluate = '很好'
+          star.className = 'perfect'
+        }
+      },
+      clearEvaluate: function() {
+        this.evaluate = ''
+      },
+      markStar: function(val) {
+        this.click = true
+        console.log(this.click, '点击')
+        let star = document.getElementById('nostar')
+        if(val === 1) {
+          star.className = 'one-star'
+        } else if(val === 2) {
+          star.className = 'two-star'
+        } else if(val === 3) {
+          star.className = 'three-star'
+        } else if(val === 4) {
+          star.className = 'four-star'
+        } else {
+          star.className = 'five-star'
+        }
+      },
+      onClear: function() {
+        this.click = false
+        console.log(this.click, '取消')
+        document.getElementById('nostar').className = 'no-star'
       }
     },
   }
