@@ -100,7 +100,7 @@
       },
       goToDetail: function(id, index) {
         console.log(id,index)
-        this.$router.push({path:`/movieDetail/${id}`, query: {num: index}})
+        this.$router.push({path:`/movieDetail/${id}`, query: {num: index+(this.current-1)*10}})
       }
     }
   }
