@@ -1,0 +1,136 @@
+*{margin: 0;padding: 0;font-family: 'Microsoft YaHei';}
+body, html {
+    width: 100%;
+    height: 100%;
+}
+#app {
+    width: 100%;
+    height: 100%;
+}
+.first-page {
+    width: 100%;
+    height: 100%;
+}
+
+/* 登录页 */
+.login-user, .regist-user, .forget-user, .code-user {
+    width: 100%;
+    height: 100%;
+    background: url('../images/login/pic_login.png') no-repeat;
+    background-size: cover;
+}
+.login-header, .regist-header, .forget-header, .code-header {
+    width: 100%;
+    height: 80px;
+    line-height: 110px;
+}
+.login-header img {
+    height: 42px;
+    margin-left: 40px;
+    z-index: 200;
+}
+
+.login-user .login-content {
+    width: 100%;
+}
+
+.login-user .content-main {
+    width:780px;
+    height:460px;
+    margin: 7% auto 0;
+    background: #fff;
+    border-radius: 10px;
+    background: url("../images/login/bg_login.png") no-repeat;
+    background-size: 100% 483px;
+}
+
+.login-user .content-main-header {
+    width: 100%;
+    height: 67px;
+}
+.user-mt-title {
+    height: 63px;
+    margin: 21px 0 0 328px;
+    font-size: 34px;
+    line-height: 68px;
+    display: inline-block;
+}
+.login-user .user-mt-img {
+    background: url("../images/login/login_w_t.png");
+    width: 52px;
+    height: 52px;
+    float: right;
+    margin-right: 118px;
+    margin-top: 6px;
+    cursor: pointer;
+}
+.login-user .content-main-userlogin {
+    width: 338px;
+    height: auto;
+    margin: 45px 0 20px 191px;
+    border-radius: 2px;
+    overflow: hidden;
+    /* padding: 20px 0 0 0; */
+}
+.login-user .userlogin-button{
+    width: 338px;
+    margin: -10px auto 20px;
+    line-height: 48px;
+    border-radius: 2px;
+    display: block;
+}
+.login-user .login-forgot {
+    float: right;
+    color: #1890ff;
+    cursor: pointer;
+    height: 32px;
+}
+.login-goregister, .login-gologin {
+    display: inline-block;
+    margin: 20px 0 0 100px;
+    color: #1890ff;
+    cursor: pointer;
+}
+.login-user .login-form-button {
+    width: 100%;
+}
+.login-user .success-alert {
+    width: 500px;
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
+.login-user .userlogin-input {
+  width: 338px;
+  height: 48px;
+  margin: 20px auto 20px;
+  line-height: 48px;
+  overflow: hidden;
+}
+.login-user .userlogin-button {
+  width: 338px;
+  margin: 0 auto 20px;
+  overflow: hidden;
+}
+.userlogin-button-forget {
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  color: #1890ff;
+  text-align: right;
+}
+.userlogin-button-forget span {
+  cursor: pointer;
+}
+.userlogin-button-submit {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  text-align: center;
+  background: #1890ff;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 5px;
+}

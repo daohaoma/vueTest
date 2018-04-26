@@ -1,0 +1,137 @@
+/* ======= input组件的css ======= */
+
+.my-input-wrap {
+  /* border: 1px solid #e6eced; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  height: 38px;
+  width: 338px;
+  position: absolute;
+}
+.my-input-icon {
+  margin-left: 10px;
+  margin-right: 10px;
+  height: 18px;
+  width: 15px;
+  position: absolute;
+  /* left: 35px; */
+}
+.my-input-blank {
+  width:6px;
+  background-color:#FFF;
+  height:100%;
+}
+.my-input-content {
+  flex: 1;
+  height: 96%;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+  outline: none;
+  padding-left: 6px;
+}
+.my-input-content::-webkit-outer-spin-button,
+.my-input-content::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.my-input-content[type="number"]{
+  -moz-appearance: textfield;
+}
+.icon-show {
+  flex: 1;
+  height: 96%;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  outline: none;
+  padding-left: 36px;
+}
+.my-input-content:focus {
+  border: 1px solid #1890ff;
+  /* box-shadow: 0 0 1px 1px #1890ff; */
+}
+.icon-show:focus {
+  border: 1px solid #1890ff;
+  /* box-shadow: 0 0 1px 1px #1890ff; */
+}
+
+/* switch开关的css  */
+
+.testswitch {
+  position: absolute;
+  right: 1px;
+  margin: 0;
+  margin-right: 5px;
+}
+
+.testswitch-checkbox {
+  display: none;
+}
+
+.testswitch-label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #999;
+  border-radius: 20px;
+}
+
+.testswitch-inner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+
+.testswitch-inner::before, .testswitch-inner::after {
+  display: block;
+  float: right;
+  width: 50%;
+  height: 24px;
+  padding: 0;
+  line-height: 24px;
+  font-size: 8px;
+  color: white;
+  font-family:
+  Trebuchet, Arial, sans-serif;
+  font-weight: bold;
+  box-sizing: border-box;
+}
+
+.testswitch-inner::after {
+  content: attr(data-on);
+  padding-left: 5px;
+  background-color: #1890ff;
+  color: #FFFFFF;
+}
+
+.testswitch-inner::before {
+  content: attr(data-off);
+  padding-right: 2px;
+  background-color: #999;
+  color: #333;
+  text-align: right;
+}
+
+.testswitch-switch {
+  position: absolute;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: 2px;
+  background: #FFFFFF;
+  top: 0;
+  bottom: 0;
+  right: 27px;
+  border: 1px solid #eee;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+}
+
+.testswitch-checkbox:checked + .testswitch-label .testswitch-inner {
+  margin-left: 0;
+}
+
+.testswitch-checkbox:checked + .testswitch-label .testswitch-switch {
+  right: 0px;
+}
