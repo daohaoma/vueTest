@@ -9,7 +9,16 @@
   height: 38px;
   width: 338px;
   position: absolute;
-  overflow: hidden;
+  z-index: 1001;
+}
+.my-input-wrap .error_tip {
+  position: absolute;
+  margin-top: 27px;
+  margin-left: 5px;
+  font-size: 14px;
+  color: #f5222d;
+  transition: block 0.3s ease-in 0s;
+  z-index: -1;
 }
 .my-input-icon {
   margin-left: 10px;
@@ -37,6 +46,13 @@
   -webkit-appearance: none;
 }
 .my-input-content[type="number"]{
+  -moz-appearance: textfield;
+}
+.icon-show::-webkit-outer-spin-button,
+.icon-show::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.icon-show[type="number"]{
   -moz-appearance: textfield;
 }
 .icon-show {

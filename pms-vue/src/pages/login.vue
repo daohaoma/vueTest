@@ -13,17 +13,21 @@
           <div class="content-main-userlogin">
             <div class="userlogin-input">
               <MyInput
-                id="safe_code"
                 :name="'safeCode'"
-                :icon="'../assets/images/icon/ic_register_security_normal.png'"
+                :icon="'../../static/images/icon/ic_register_security_normal.png'"
                 :placeholder="'安全码'"
+                :pattern="rule.checked ? rule.positiveInteger.pattern : ''"
+                :message="rule.checked ? rule.positiveInteger.message : ''"
+                :required="true"
                 ></MyInput>
             </div>
             <div class="userlogin-input">
               <MyInput
                 :name="'userName'"
-                :icon="'../assets/images/icon/ic_register_username_normal.png'"
+                :icon="'../../static/images/icon/ic_register_username_normal.png'"
                 :placeholder="'用户名'"
+                :message="rule.checked ? '请填写用户名' : ''"
+                :required="true"
                 ></MyInput>
             </div>
             <div class="userlogin-input" style="margin-bottom: 5px;">
@@ -31,14 +35,17 @@
                 :name="'passWord'"
                 :type="'password'"
                 :showswitch="'on'"
-                :icon="'../assets/images/icon/ic_register_password_normal.png'"
+                :icon="'../../static/images/icon/ic_register_password_normal.png'"
                 :placeholder="'密码'"
+                :message="rule.checked ? '请填写密码' : ''"
+                :required="true"
                 ></MyInput>
             </div>
             <div class="userlogin-button">
               <div class="userlogin-button-forget"><span>忘记密码</span></div>
               <div class="userlogin-button-submit" @click="loginSubmit">登录</div>
             </div>
+            <div class="userlogin-goregist"><span style="cursor: pointer;">还没账号，去注册-></span></div>
           </div>
         </div>
       </div>
@@ -50,14 +57,25 @@
 </style>
 <script>
   import MyInput from '../components/MyInput'
+  import validator from '../../static/validator/index.js'
   export default {
     data() {
-      return {}
+      return {
+        rule: {},
+      }
     },
     components: {
       MyInput
     },
+    mounted: function() {
+      this.ready()
+    },
     methods: {
+      ready: function() {
+        // :pattern="rule.positiveInteger.pattern"
+        // :message="rule.positiveInteger.message"
+        this.rule = validator
+      },
       loginSubmit: function() {
         let inputs = document.getElementsByClassName('my-input-wrap')
         let value = this.buildNewObj(inputs)
