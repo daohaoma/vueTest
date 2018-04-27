@@ -134,3 +134,10 @@ body, html {
   border-radius: 5px;
   margin-top: 5px;
 }
+.login-user .userlogin-goregist {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #1890ff;
+}
