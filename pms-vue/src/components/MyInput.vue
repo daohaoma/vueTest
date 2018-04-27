@@ -29,6 +29,7 @@
         data_type: this.type === 'password' ? 'password' : this.type === 'number' ? 'number' : 'text',
         showPassword: false,
         showError: false,
+        canSubmit: false,
       }
     },
     props: {
