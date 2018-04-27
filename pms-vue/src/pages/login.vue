@@ -12,13 +12,28 @@
           </div>
           <div class="content-main-userlogin">
             <div class="userlogin-input">
-              <MyInput :type="'password'" :pass_switch="'12'" id="safe_code"></MyInput>
+              <MyInput
+                id="safe_code"
+                :name="'safeCode'"
+                :icon="'../assets/images/icon/ic_register_security_normal.png'"
+                :placeholder="'安全码'"
+                ></MyInput>
             </div>
             <div class="userlogin-input">
-              <MyInput></MyInput>
+              <MyInput
+                :name="'userName'"
+                :icon="'../assets/images/icon/ic_register_username_normal.png'"
+                :placeholder="'用户名'"
+                ></MyInput>
             </div>
             <div class="userlogin-input" style="margin-bottom: 5px;">
-              <MyInput></MyInput>
+              <MyInput
+                :name="'passWord'"
+                :type="'password'"
+                :showswitch="'on'"
+                :icon="'../assets/images/icon/ic_register_password_normal.png'"
+                :placeholder="'密码'"
+                ></MyInput>
             </div>
             <div class="userlogin-button">
               <div class="userlogin-button-forget"><span>忘记密码</span></div>
@@ -44,8 +59,20 @@
     },
     methods: {
       loginSubmit: function() {
-        let input = document.getElementById('my-input').value
-        console.log(input)
+        let inputs = document.getElementsByClassName('my-input-wrap')
+        let value = this.buildNewObj(inputs)
+        console.log(value)
+      },
+      buildNewObj: function(val) {
+        let inputVal = new Object()
+        for(let i = 0; i < val.length; i++) {
+          let input = val[i].getElementsByTagName('input')
+          // console.log(input[0].name)
+          // console.log(input[0].value)
+          // let inputVal = new Object()
+          inputVal[input[0].name] = input[0].value
+        }
+        return inputVal
       }
     }
   }

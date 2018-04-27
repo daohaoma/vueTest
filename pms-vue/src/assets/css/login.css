@@ -102,9 +102,9 @@ body, html {
 }
 .login-user .userlogin-input {
   width: 338px;
-  height: 48px;
+  height: 45px;
   margin: 20px auto 20px;
-  line-height: 48px;
+  line-height: 45px;
   overflow: hidden;
 }
 .login-user .userlogin-button {

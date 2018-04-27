@@ -2,7 +2,7 @@
   <div class="my-input-wrap">
     <img v-if="icon" :src="icon" class="my-input-icon">
     <input :name="name" :type="data_type" :placeholder="placeholder" class="my-input-content" id="my-input"/>
-    <div v-if="pass_switch" class="testswitch">
+    <div v-if="showswitch == 'on'" class="testswitch">
       <input class="testswitch-checkbox" id="onoffswitch" type="checkbox" @click="turnSwitch">
       <label class="testswitch-label" for="onoffswitch">
           <span class="testswitch-inner" data-on="ON" data-off="OFF"></span>
@@ -44,7 +44,7 @@
         type: String,
         default: '',
       },
-      pass_switch: {
+      showswitch: {
         type: String,
         default: '',
       },
@@ -55,9 +55,14 @@
     methods: {
       ready: function() {
         if(this.icon) {
-          document.getElementById('my-input').className = 'icon-show'
+          let inputs = document.getElementsByClassName('my-input-content')
+          for(let i=0; i<inputs.length; i++) {
+            let input = inputs[i]
+            if(input.name === this.name) {
+              input.className = 'icon-show'
+            }
+          }
         }
-        console.log(this.pass_switch)
       },
       turnSwitch: function() {
         this.showPassword = !this.showPassword

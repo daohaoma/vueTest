@@ -9,6 +9,7 @@
   height: 38px;
   width: 338px;
   position: absolute;
+  overflow: hidden;
 }
 .my-input-icon {
   margin-left: 10px;
@@ -41,7 +42,7 @@
 .icon-show {
   flex: 1;
   height: 96%;
-  border: 1px solid #eee;
+  border: 1px solid #d9d9d9;
   border-radius: 8px;
   outline: none;
   padding-left: 36px;
