@@ -11,40 +11,43 @@
             <span class="user-mt-img"></span>
           </div>
           <div class="content-main-userlogin">
-            <div class="userlogin-input">
-              <MyInput
-                :name="'safeCode'"
-                :icon="'../../static/images/icon/ic_register_security_normal.png'"
-                :placeholder="'安全码'"
-                :pattern="rule.checked ? rule.positiveInteger.pattern : ''"
-                :message="rule.checked ? rule.positiveInteger.message : ''"
-                :required="true"
-                ></MyInput>
-            </div>
-            <div class="userlogin-input">
-              <MyInput
-                :name="'userName'"
-                :icon="'../../static/images/icon/ic_register_username_normal.png'"
-                :placeholder="'用户名'"
-                :message="rule.checked ? '请填写用户名' : ''"
-                :required="true"
-                ></MyInput>
-            </div>
-            <div class="userlogin-input" style="margin-bottom: 5px;">
-              <MyInput
-                :name="'passWord'"
-                :type="'password'"
-                :showswitch="'on'"
-                :icon="'../../static/images/icon/ic_register_password_normal.png'"
-                :placeholder="'密码'"
-                :message="rule.checked ? '请填写密码' : ''"
-                :required="true"
-                ></MyInput>
-            </div>
-            <div class="userlogin-button">
-              <div class="userlogin-button-forget"><span>忘记密码</span></div>
-              <div class="userlogin-button-submit" @click="loginSubmit">登录</div>
-            </div>
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+              <div class="userlogin-input">
+                <el-form-item prop="safecode">
+                  <el-input
+                    placeholder="安全码"
+                    prefix-icon="el-icon-tickets"
+                    v-model.number="ruleForm.safecode"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="userlogin-input">
+                <el-form-item prop="username">
+                  <el-input
+                    placeholder="用户名"
+                    prefix-icon="el-icon-tickets"
+                    v-model="ruleForm.username"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="userlogin-input" style="margin-bottom: 5px;">
+                <el-form-item prop="password">
+                  <el-input
+                    placeholder="密码"
+                    prefix-icon="el-icon-tickets"
+                    v-model="ruleForm.password"
+                    type="password"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="userlogin-button">
+                <div class="userlogin-button-forget"><span>忘记密码</span></div>
+                <!-- <div class="userlogin-button-submit" @click="loginSubmit">登录</div> -->
+                <el-form-item prop="submit">
+                  <el-button type="primary" @click="loginSubmit('ruleForm')" style="width: 100%">登录</el-button>
+                </el-form-item>
+              </div>
+            </el-form>
             <div class="userlogin-goregist"><span style="cursor: pointer;">还没账号，去注册-></span></div>
           </div>
         </div>
@@ -56,42 +59,74 @@
   @import '../assets/css/login.css';
 </style>
 <script>
-  import MyInput from '../components/MyInput'
   import validator from '../../static/validator/index.js'
   export default {
     data() {
+      var checkSafeCode = (rule, value, callback) => {
+        // console.log(Number.isInteger(parseInt(value)))
+        if (!value) {
+          return callback(new Error('安全码不能为空'))
+        } else if (!Number.isInteger(parseInt(value))) {
+          callback(new Error('请输入数字值'))
+        } else {
+          callback()
+        }
+      }
       return {
-        rule: {},
+        ruleForm: {
+          safecode: '',
+          username: '',
+          password: '',
+        },
+        rules: {
+          safecode: [
+            { validator: checkSafeCode, trigger: 'change' }
+          ],
+          username: [
+            { required: true, message: '请输入用户名', trigger: 'change' }
+          ],
+          password: [
+            { required: true, message: '请输入密码', trigger: 'change' }
+          ],
+        }
       }
     },
     components: {
-      MyInput
     },
     mounted: function() {
       this.ready()
     },
     methods: {
       ready: function() {
-        // :pattern="rule.positiveInteger.pattern"
-        // :message="rule.positiveInteger.message"
-        this.rule = validator
       },
-      loginSubmit: function() {
-        let inputs = document.getElementsByClassName('my-input-wrap')
-        let value = this.buildNewObj(inputs)
-        console.log(value)
-      },
-      buildNewObj: function(val) {
-        let inputVal = new Object()
-        for(let i = 0; i < val.length; i++) {
-          let input = val[i].getElementsByTagName('input')
-          // console.log(input[0].name)
-          // console.log(input[0].value)
-          // let inputVal = new Object()
-          inputVal[input[0].name] = input[0].value
-        }
-        return inputVal
+      loginSubmit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log(this.ruleForm)
+            console.log(this.ruleForm.username)
+          } else {
+            console.log('error submit!!')
+            // console.log(this.ruleForm.safecode)
+            return false;
+          }
+        })
       }
+      // loginSubmit: function() {
+      //   let inputs = document.getElementsByClassName('my-input-wrap')
+      //   let value = this.buildNewObj(inputs)
+      //   console.log(value)
+      // },
+      // buildNewObj: function(val) {
+      //   let inputVal = new Object()
+      //   for(let i = 0; i < val.length; i++) {
+      //     let input = val[i].getElementsByTagName('input')
+      //     // console.log(input[0].name)
+      //     // console.log(input[0].value)
+      //     // let inputVal = new Object()
+      //     inputVal[input[0].name] = input[0].value
+      //   }
+      //   return inputVal
+      // }
     }
   }
 </script>
