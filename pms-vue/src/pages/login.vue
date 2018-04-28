@@ -17,7 +17,7 @@
                   <el-input
                     placeholder="安全码"
                     prefix-icon="el-icon-tickets"
-                    v-model.number="ruleForm.safecode"
+                    v-model="ruleForm.safecode"
                   ></el-input>
                 </el-form-item>
               </div>
@@ -102,31 +102,46 @@
       loginSubmit(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(this.ruleForm)
-            console.log(this.ruleForm.username)
+            // console.log(this.ruleForm)
+            // console.log(this.ruleForm.username)
+            let params = {
+              gcid: this.ruleForm.safecode,
+              params:{
+                accountName: this.ruleForm.username,
+                accountPwd: this.ruleForm.password,
+                gcid: this.ruleForm.username,
+              },
+              token: "",
+              userid: "",
+            }
+            this.$http.post('/v2/jjr_user_login/pc_login', params).then((response) => {
+              // console.log(response)
+              let data = response.data
+              if(response.status === 200) {
+                if(data.status.code === '200') {
+                  this.$message({
+                    message: '登陆成功！',
+                    type: 'success'
+                  })
+                } else if(data.status.code === '1012') {
+                  this.$message.error(data.status.msg)
+                } else if(data.status.code === '1007') {
+                  this.$message.error('请检查用户名是否正确！')
+                } else if(data.status.code === '99') {
+                  this.$message.error('请检查密码是否正确！')
+                }
+              } else {
+                this.$message.error('网络错误~')
+              }
+            }).catch((error)=>{
+              console.log(error)
+            })
           } else {
             console.log('error submit!!')
-            // console.log(this.ruleForm.safecode)
             return false;
           }
         })
       }
-      // loginSubmit: function() {
-      //   let inputs = document.getElementsByClassName('my-input-wrap')
-      //   let value = this.buildNewObj(inputs)
-      //   console.log(value)
-      // },
-      // buildNewObj: function(val) {
-      //   let inputVal = new Object()
-      //   for(let i = 0; i < val.length; i++) {
-      //     let input = val[i].getElementsByTagName('input')
-      //     // console.log(input[0].name)
-      //     // console.log(input[0].value)
-      //     // let inputVal = new Object()
-      //     inputVal[input[0].name] = input[0].value
-      //   }
-      //   return inputVal
-      // }
     }
   }
 </script>

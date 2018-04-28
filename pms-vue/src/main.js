@@ -6,6 +6,8 @@ import router from './router'
 import  VueResource  from 'vue-resource'
 import ElementUI from 'element-ui'
 import '../theme/index.css'
+import axios from 'axios'
+Vue.prototype.$http = axios
 
 Vue.use(VueResource)
 Vue.use(ElementUI)
