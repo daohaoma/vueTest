@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 
 import Login from '../pages/login'
+import Regist from '../pages/regist'
 
 import MyInput from '../components/MyInput'
 Vue.use(Router)
@@ -20,9 +21,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/myinput',
-      name: 'MyInput',
-      component: MyInput
+      path: '/regist',
+      name: 'Regist',
+      component: Regist
     }
   ]
 })

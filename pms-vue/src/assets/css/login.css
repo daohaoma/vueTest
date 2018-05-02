@@ -1,25 +1,16 @@
-*{margin: 0;padding: 0;font-family: 'Microsoft YaHei';}
-body, html {
-    width: 100%;
-    height: 100%;
-}
-#app {
-    width: 100%;
-    height: 100%;
-}
 .first-page {
     width: 100%;
     height: 100%;
 }
 
 /* 登录页 */
-.login-user, .regist-user, .forget-user, .code-user {
+.login-user {
     width: 100%;
     height: 100%;
     background: url('../images/login/pic_login.png') no-repeat;
     background-size: cover;
 }
-.login-header, .regist-header, .forget-header, .code-header {
+.login-header {
     width: 100%;
     height: 80px;
     line-height: 110px;
@@ -48,7 +39,7 @@ body, html {
     width: 100%;
     height: 67px;
 }
-.user-mt-title {
+.login-user .user-mt-title {
     height: 63px;
     margin: 21px 0 0 328px;
     font-size: 34px;
