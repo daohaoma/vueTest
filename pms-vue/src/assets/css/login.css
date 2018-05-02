@@ -26,13 +26,13 @@
 }
 
 .login-user .content-main {
-    width:780px;
+    width:580px;
     height:460px;
     margin: 7% auto 0;
     background: #fff;
     border-radius: 10px;
-    background: url("../images/login/bg_login.png") no-repeat;
-    background-size: 100% 483px;
+    /* background: url("../images/login/bg_login.png") no-repeat;
+    background-size: 100% 483px; */
 }
 
 .login-user .content-main-header {
@@ -41,7 +41,14 @@
 }
 .login-user .user-mt-title {
     height: 63px;
-    margin: 21px 0 0 328px;
+    margin: 21px 0 0 259px;
+    font-size: 34px;
+    line-height: 68px;
+    display: inline-block;
+}
+.login-user .forget-mt-title {
+  height: 63px;
+    margin: 21px 0 0 222px;
     font-size: 34px;
     line-height: 68px;
     display: inline-block;
@@ -51,14 +58,12 @@
     width: 52px;
     height: 52px;
     float: right;
-    margin-right: 118px;
-    margin-top: 6px;
     cursor: pointer;
 }
 .login-user .content-main-userlogin {
     width: 338px;
     height: auto;
-    margin: 45px 0 20px 191px;
+    margin: 40px 0 20px 121px;
     border-radius: 2px;
     overflow: hidden;
     /* padding: 20px 0 0 0; */
@@ -86,10 +91,42 @@
 .userlogin-button-forget span {
   cursor: pointer;
 }
-.login-user .userlogin-goregist {
+.login-user .userlogin-goregist, .userlogin-turnlogin {
   width: 100%;
   height: 40px;
   line-height: 40px;
   text-align: center;
   color: #F87242;
+}
+
+/* 二维码登录 */
+.login-user .content-qrcode {
+  width:380px;
+  height:460px;
+  margin: 7% auto 0;
+  background: #fff;
+  border-radius: 10px;
+}
+.login-user .user-qr-title {
+  height: 63px;
+  margin: 21px 0 0 122px;
+  font-size: 34px;
+  line-height: 68px;
+  display: inline-block;
+}
+.login-user .user-qr-img {
+  background: url("../images/login/login_t_w.png");
+  width: 52px;
+  height: 52px;
+  float: right;
+  cursor: pointer;
+}
+.login-user .content-qrcode-userlogin {
+  width: 250px;
+  height: auto;
+  margin: 40px auto 0;
+}
+.login-user .content-qrcode-userlogin img {
+  width: 100%;
+  height: 250px;
 }

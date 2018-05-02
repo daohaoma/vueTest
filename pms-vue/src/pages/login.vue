@@ -5,18 +5,19 @@
         <img src='../assets/images/login/logo.png' alt='巧房科技'/>
       </div>
       <div class='login-content'>
-        <div class="content-main">
+        <div class="content-main" v-show="!showQrCode">
           <div class="content-main-header">
-            <span class="user-mt-title">登录</span>
-            <span class="user-mt-img"></span>
+            <span class="user-mt-title" v-show="showLogin">登录</span>
+            <span class="forget-mt-title" v-show="!showLogin">重置密码</span>
+            <span class="user-mt-img" @click="turnQrCodeLogin(true)" v-show="showLogin"></span>
           </div>
           <div class="content-main-userlogin">
-            <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" v-show="showLogin">
               <div class="userlogin-input">
                 <el-form-item prop="safecode">
                   <el-input
                     placeholder="安全码"
-                    prefix-icon="el-icon-tickets"
+                    prefix-icon="el-icon-pms-wufengxian"
                     v-model="ruleForm.safecode"
                   ></el-input>
                 </el-form-item>
@@ -25,7 +26,7 @@
                 <el-form-item prop="username">
                   <el-input
                     placeholder="用户名"
-                    prefix-icon="el-icon-tickets"
+                    prefix-icon="el-icon-pms-geren"
                     v-model="ruleForm.username"
                   ></el-input>
                 </el-form-item>
@@ -34,21 +35,68 @@
                 <el-form-item prop="password">
                   <el-input
                     placeholder="密码"
-                    prefix-icon="el-icon-tickets"
+                    prefix-icon="el-icon-pms-mimasuo"
                     v-model="ruleForm.password"
                     type="password"
                   ></el-input>
                 </el-form-item>
               </div>
               <div class="userlogin-button">
-                <div class="userlogin-button-forget"><span>忘记密码</span></div>
+                <div class="userlogin-button-forget"><span @click="turnLogin(false)">忘记密码</span></div>
                 <!-- <div class="userlogin-button-submit" @click="loginSubmit">登录</div> -->
                 <el-form-item prop="submit">
                   <el-button type="primary" @click="loginSubmit('ruleForm')" style="width: 100%">登录</el-button>
                 </el-form-item>
               </div>
             </el-form>
-            <div class="userlogin-goregist"><span style="cursor: pointer;">还没账号，去注册-></span></div>
+            <div class="userlogin-goregist" v-show="showLogin"><span style="cursor: pointer;" @click="goToRegist">还没账号，去注册-></span></div>
+
+            <el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" v-show="!showLogin">
+              <div class="userlogin-input">
+                <el-form-item prop="forget_phone">
+                  <el-input
+                    placeholder="请输入手机号"
+                    prefix-icon="el-icon-mobile-phone"
+                    v-model="ruleForm2.forget_phone"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="userlogin-input">
+                <el-form-item prop="forget_testcode">
+                  <el-input
+                    placeholder="验证码"
+                    prefix-icon="el-icon-pms-wufengxian"
+                    v-model="ruleForm2.forget_testcode"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="userlogin-input">
+                <el-form-item prop="forget_password">
+                  <el-input
+                    placeholder="密码"
+                    prefix-icon="el-icon-pms-mimasuo"
+                    v-model="ruleForm2.forget_password"
+                    type="password"
+                  ></el-input>
+                </el-form-item>
+              </div>
+              <div class="userlogin-button">
+                <el-form-item prop="forget_submit">
+                  <el-button type="primary" style="width: 100%">确认</el-button>
+                </el-form-item>
+              </div>
+            </el-form>
+            <div class="userlogin-turnlogin" v-show="!showLogin"><span style="cursor: pointer;" @click="turnLogin(true)">返回登录-></span></div>
+
+          </div>
+        </div>
+        <div class="content-qrcode" v-show="showQrCode">
+          <div class="content-qrcode-header">
+            <span class="user-qr-title">扫码登录</span>
+            <span class="user-qr-img" @click="turnQrCodeLogin(false)"></span>
+          </div>
+          <div class="content-qrcode-userlogin">
+            <img src="../assets/images/login/qr_code.png" alt="二维码登录">
           </div>
         </div>
       </div>
@@ -88,7 +136,9 @@
           password: [
             { required: true, message: '请输入密码', trigger: 'change' }
           ],
-        }
+        },
+        showLogin: true,
+        showQrCode: false,
       }
     },
     components: {
@@ -141,7 +191,10 @@
             return false;
           }
         })
-      }
+      },
+      goToRegist() { this.$router.push({path:'/regist'}) },
+      turnLogin(value) { this.showLogin = value },
+      turnQrCodeLogin(value) { this.showQrCode = value },
     }
   }
 </script>

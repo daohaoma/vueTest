@@ -18,31 +18,27 @@
   width: 100%;
 }
 .regist-user .regist-content-main {
-  width:780px;
-  height:700px;
-  margin: 3% auto 0;
+  width:580px;
+  height:690px;
+  margin: 4% auto 0;
   background: #fff;
   border-radius: 10px;
-  background: url("../images/login/bg_login.png") no-repeat;
-  background-size: 100% 700px;
 }
 .regist-user .content-main-userregist {
   width: 338px;
   height: auto;
-  margin: 45px 0 20px 191px;
+  margin: 0 0 0 121px;
   border-radius: 2px;
   overflow: hidden;
   padding: 10px 0 0 0;
+  position: absolute;
 }
 .regist-user .user-mt-title {
-  height: 63px;
-  margin: 35px 0 0 328px;
-  font-size: 34px;
-  line-height: 68px;
+  height: 80px;
+  margin: 11px 0 0 259px;
+  font-size: 30px;
+  line-height: 80px;
   display: inline-block;
-}
-.regist-user .el-form-item {
-  margin-bottom: 12px;
 }
 .regist-user .userregist-gologin {
   width: 100%;
@@ -50,4 +46,28 @@
   line-height: 40px;
   text-align: center;
   color: #F87242;
+}
+.regist-user .regist_area_icon {
+  font-size: 14px;
+  color: #D0D0D0;
+  position: absolute;
+  top: 13px;
+  left: 10px;
+  z-index: 1000;
+}
+.regist-user .regist_area .el-input__inner {
+  padding-left: 30px;
+}
+.regist-user .send_testcode {
+  cursor: pointer;
+  font-style: normal
+}
+
+/* .regist-user .regist_agree_checkbox .regist_agree_checkbox {
+  height: 20px;
+  margin-bottom: 12px;
+} */
+.regist-user .regist_agree_checkbox .el-form-item__error {
+  position: absolute;
+  top: 28px;
 }
