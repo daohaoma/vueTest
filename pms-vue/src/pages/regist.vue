@@ -31,6 +31,11 @@
                 placeholder="所在城市/区域"
                 style="width: 100%"
                 @change="handleChange"
+                @active-item-change="parentItemChange"
+                @focus="getCityList"
+                v-model="ruleForm.area"
+                filterable
+                :clearable="true"
               >
               </el-cascader>
             </el-form-item>
@@ -113,27 +118,8 @@
         }
       }
       return {
-        options: [{
-          value: 'zhinan',
-          label: '指南',
-          children: [{
-            value: 'shejiyuanze',
-            label: '设计原则',
-            children: [{
-              value: 'yizhi',
-              label: '一致'
-            }, {
-              value: 'fankui',
-              label: '反馈'
-            }, {
-              value: 'xiaolv',
-              label: '效率'
-            }, {
-              value: 'kekong',
-              label: '可控'
-            }]
-          }]
-        }],
+        options: [],
+        children: [],
         ruleForm: {
           phonenumber: '',
           company: '',
@@ -141,14 +127,14 @@
           testcode: '',
           password: '',
           agreeclause: [],
-          area: '',
+          area: [],
         },
         rules: {
           phonenumber: [
             { validator: checkPhoneNum, trigger: 'change' }
           ],
           company: [{ required: true, message: '请输入公寓/公司名称', trigger: 'change' }],
-          area: [{ required: true, message: '请选择所在区域', trigger: 'change' }],
+          area: [{ type: 'array', required: true, message: '请选择所在区域', trigger: 'change' }],
           contacts: [{ required: true, message: '请输入联系人', trigger: 'change' }],
           testcode: [{ required: true, message: '请输入验证码', trigger: 'change' }],
           password: [{ validator: checkPassWord, trigger: 'change' }],
@@ -159,24 +145,91 @@
         turnswitch: 'password',
         showTestCode: '发送验证码',
         second: '',
+        cityIndex: 0,
+        townIndex: 0,
+        cityCode: '',
+        cityName: '',
+        cityId: '',
+        townName: '',
+        townId: '',
+        citys: [],
+        towns: [],
       }
     },
+    mounted: function() {
+      this.ready()
+    },
     methods: {
+      ready() {},
       registsubmit(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$message({
-              message: '信息填写正确',
-              type: 'success'
+            let params = {}
+            params.accountName = this.ruleForm.contacts
+            params.cityCode = this.cityCode
+            params.companyName = this.ruleForm.company
+            params.isAgree = 'on'
+            params.password = this.ruleForm.password
+            params.townId = this.townId
+            params.validateCode = this.ruleForm.testcode
+            this.citys.forEach((item, index) => {
+              if(item.cityCode === this.cityCode) {
+                params.cityId = item.id
+                params.cityName = item.name
+              }
+            })
+            this.towns.forEach((item, index) => {
+              if(item.id === this.townId) {
+                params.townName = item.name
+              }
+            })
+            console.log(params)
+            this.$http.post('/v2/register/register', params).then((res) => {
+              console.log(res)
             })
           } else {
-            this.$message.error('信息填写不正确')
-            return false;
+            return false
           }
         })
       },
       handleChange(value) {
         console.log(value)
+        this.cityCode = value[0]
+        this.townId = value[1]
+      },
+      parentItemChange(value) {
+        this.townIndex = this.children.length
+        // 获取区域
+        let params = {cityCode: value[0]}
+        this.$http.post('/v2/location/town/get_list', params).then((res1) => {
+          let townList = res1.body.result.list
+          this.towns = townList
+          townList.forEach((val, i) => {
+            let town = {
+              label: val.name,
+              value: val.id
+            }
+            this.children.push(town)
+          })
+          this.children.splice(0, this.townIndex)
+        })
+      },
+      getCityList() {
+        this.cityIndex = this.options.length
+        // 获取城市
+        this.$http.post('/v2/location/city/get_list', {}).then((res) => {
+          let cityList = res.body.result.list
+          this.citys = cityList
+          cityList.forEach((item, index) => {
+            let city = {
+              label: item.name,
+              value: item.cityCode,
+              children: this.children
+            }
+            this.options.push(city)
+          })
+          this.options.splice(0, this.cityIndex)
+        })
       },
       showPassword(value) {
         if(value) {
@@ -187,18 +240,32 @@
       },
       goToLogin() {this.$router.push({path:'/login'})},
       sendTestCode() {
+        let params = { phone: this.ruleForm.phonenumber, type: 1 }
         if(!this.second) {
-          this.second = 's'
-          this.showTestCode = 5
-          let timer = setInterval(() => {
-            if (this.showTestCode > 0) {
-              this.showTestCode --
+          this.$http.post('/v2/register/get_validateCode', params).then((res) => {
+          if(res.ok) {
+            if(res.body.status.code === '99') {
+              this.$message.error(res.body.status.msg)
             } else {
-              this.second = ''
-              this.showTestCode = '发送验证码'
-              clearInterval(timer)
+              this.$message({ message: '验证码发送成功，请注意查收！', type: 'success' })
+                this.second = 's'
+                this.showTestCode = 60
+                let timer = setInterval(() => {
+                  if (this.showTestCode > 1) {
+                    this.showTestCode --
+                  } else {
+                    this.second = ''
+                    this.showTestCode = '发送验证码'
+                    clearInterval(timer)
+                  }
+                }, 1000)
             }
-          }, 1000)
+          } else {
+            this.$message.error('验证码发送失败~')
+          }
+        })
+        } else {
+          this.$message({ message: '请稍后再次点击发送~', type: 'warning' })
         }
       },
     }

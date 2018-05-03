@@ -51,7 +51,7 @@
             </el-form>
             <div class="userlogin-goregist" v-show="showLogin"><span style="cursor: pointer;" @click="goToRegist">还没账号，去注册-></span></div>
 
-            <el-form :model="ruleForm2" :rules="rules" ref="ruleForm2" v-show="!showLogin">
+            <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" v-show="!showLogin">
               <div class="userlogin-input">
                 <el-form-item prop="forget_phone">
                   <el-input
@@ -67,7 +67,7 @@
                     placeholder="验证码"
                     prefix-icon="el-icon-pms-wufengxian"
                     v-model="ruleForm2.forget_testcode"
-                  ></el-input>
+                  ><i slot="suffix" class="send_testcode" @click="sendTestCode">{{showTestCode}}{{second}}</i></el-input>
                 </el-form-item>
               </div>
               <div class="userlogin-input">
@@ -76,13 +76,21 @@
                     placeholder="密码"
                     prefix-icon="el-icon-pms-mimasuo"
                     v-model="ruleForm2.forget_password"
-                    type="password"
-                  ></el-input>
+                    :type="turnswitch"
+                  ><i slot="suffix">
+                    <el-switch
+                      v-model="show_password"
+                      active-color="#F87242"
+                      @change="showPassword"
+                    >
+                    </el-switch>
+                  </i>
+                  </el-input>
                 </el-form-item>
               </div>
               <div class="userlogin-button">
                 <el-form-item prop="forget_submit">
-                  <el-button type="primary" style="width: 100%">确认</el-button>
+                  <el-button type="primary" style="width: 100%" @click="resetPasswordSubmit('ruleForm2')">确认</el-button>
                 </el-form-item>
               </div>
             </el-form>
@@ -120,25 +128,51 @@
           callback()
         }
       }
+      var checkPhoneNum = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('手机号码不能为空'))
+        } else if (!validator.phone.pattern.test(value)) {
+          callback(new Error('请输入正确手机号'))
+        } else {
+          callback()
+        }
+      }
+      var checkPassWord = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('密码不能为空'))
+        } else if (!validator.password.pattern.test(value)) {
+          callback(new Error('密码长度为4~20位,只能包括数字、英文以及标点符号'))
+        } else {
+          callback()
+        }
+      }
       return {
         ruleForm: {
           safecode: '',
           username: '',
           password: '',
         },
+        ruleForm2: {
+          forget_phone: '',
+          forget_testcode: '',
+          forget_password: '',
+        },
         rules: {
-          safecode: [
-            { validator: checkSafeCode, trigger: 'change' }
-          ],
-          username: [
-            { required: true, message: '请输入用户名', trigger: 'change' }
-          ],
-          password: [
-            { required: true, message: '请输入密码', trigger: 'change' }
-          ],
+          safecode: [{ validator: checkSafeCode, trigger: 'change' }],
+          username: [{ required: true, message: '请输入用户名', trigger: 'change' }],
+          password: [{ required: true, message: '请输入密码', trigger: 'change' }],
+        },
+        rules2: {
+          forget_phone: [{ validator: checkPhoneNum, trigger: 'change' }],
+          forget_testcode: [{ required: true, message: '请输入收到的验证码', trigger: 'change' }],
+          forget_password: [{ validator: checkPassWord, trigger: 'change' }],
         },
         showLogin: true,
         showQrCode: false,
+        showTestCode: '发送验证码',
+        second: '',
+        show_password: false,
+        turnswitch: 'password',
       }
     },
     components: {
@@ -195,6 +229,48 @@
       goToRegist() { this.$router.push({path:'/regist'}) },
       turnLogin(value) { this.showLogin = value },
       turnQrCodeLogin(value) { this.showQrCode = value },
+      sendTestCode() {
+        let params = {phone: this.ruleForm2.forget_phone, type: 2}
+        this.$http.post('/v2/register/get_validateCode', params).then((res) => {
+          if(res.ok){
+            this.$message({ message: '验证码发送成功，请注意查收！', type: 'success' })
+            if(!this.second) {
+              this.second = 's'
+              this.showTestCode = 60
+              let timer = setInterval(() => {
+                if (this.showTestCode > 1) {
+                  this.showTestCode --
+                } else {
+                  this.second = ''
+                  this.showTestCode = '发送验证码'
+                  clearInterval(timer)
+                }
+              }, 1000)
+            } else {
+              this.$message({ message: '请稍后再次点击发送~', type: 'warning' })
+            }
+          } else {
+            this.$message.error('验证码发送失败~')
+          }
+        })
+      },
+      showPassword(value) {
+        if(value) {
+          this.turnswitch = ''
+        } else {
+          this.turnswitch = 'password'
+        }
+      },
+      resetPasswordSubmit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            console.log(this.ruleForm2)
+
+          } else {
+            this.$message.error('填写信息错误~')
+          }
+        })
+      }
     }
   }
 </script>

@@ -130,3 +130,7 @@
   width: 100%;
   height: 250px;
 }
+.login-user .send_testcode {
+  cursor: pointer;
+  font-style: normal
+}

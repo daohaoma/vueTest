@@ -58,6 +58,9 @@
 .regist-user .regist_area .el-input__inner {
   padding-left: 30px;
 }
+.regist-user .regist_area .el-cascader__label {
+  padding-left: 30px;
+}
 .regist-user .send_testcode {
   cursor: pointer;
   font-style: normal
