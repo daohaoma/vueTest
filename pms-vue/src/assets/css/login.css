@@ -122,15 +122,38 @@
   cursor: pointer;
 }
 .login-user .content-qrcode-userlogin {
-  width: 250px;
+  width: 100%;
   height: auto;
-  margin: 40px auto 0;
+  margin-top: 40px;
 }
 .login-user .content-qrcode-userlogin img {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+}
+.login-user .content_show_qrcode_again {
   width: 100%;
   height: 250px;
+  margin: 0 auto;
+  z-index: 1000;
+  position: relative;
+  top: -250px;
+}
+.opacity {
+  opacity:0.3;
 }
 .login-user .send_testcode {
   cursor: pointer;
   font-style: normal
 }
+
+
+
+
+/* [class^="el-icon-pms"], [class*=" el-icon-pms"] {
+  font-family:"iconfont" !important;
+  font-size:14px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+} */
