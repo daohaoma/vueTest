@@ -7,6 +7,7 @@ import  VueResource  from 'vue-resource'
 import ElementUI from 'element-ui'
 import '../theme/index.css'
 import '../src/assets/icon/iconfont.css'
+import $ from 'jquery'
 import axios from 'axios'
 Vue.prototype.$http = axios
 

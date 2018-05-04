@@ -103,8 +103,11 @@
             <span class="user-qr-title">扫码登录</span>
             <span class="user-qr-img" @click="turnQrCodeLogin(false)"></span>
           </div>
-          <div class="content-qrcode-userlogin">
-            <img src="../assets/images/login/qr_code.png" alt="二维码登录">
+          <div class="content-qrcode-userlogin" :class="{'opacity': overdue}" id='qr_code'>
+            <!-- <img src="../assets/images/login/qr_code.png" alt="二维码登录"> -->
+          </div>
+          <div class="content_show_qrcode_again">
+            321231321321
           </div>
         </div>
       </div>
@@ -116,6 +119,7 @@
 </style>
 <script>
   import validator from '../../static/validator/index.js'
+  import QRCode from 'qrcodejs2'
   export default {
     data() {
       var checkSafeCode = (rule, value, callback) => {
@@ -173,6 +177,8 @@
         second: '',
         show_password: false,
         turnswitch: 'password',
+        scanCode: '',
+        overdue: false,
       }
     },
     components: {
@@ -207,6 +213,7 @@
                     message: '登陆成功！',
                     type: 'success'
                   })
+                  this.$router.push({path:'/home'})
                 } else if(data.status.code === '1012') {
                   this.$message.error(data.status.msg)
                 } else if(data.status.code === '1007') {
@@ -228,7 +235,31 @@
       },
       goToRegist() { this.$router.push({path:'/regist'}) },
       turnLogin(value) { this.showLogin = value },
-      turnQrCodeLogin(value) { this.showQrCode = value },
+      turnQrCodeLogin(value) {
+        this.showQrCode = value
+        console.log(value)
+        this.showCode()
+      },
+      showCode() {
+        let params = { scanCode: this.scanCode }
+        // setInterval(this.getQrCode(params), 1000)
+        this.getQrCode(params)
+      },
+      getQrCode(params) {
+        this.$http.post('/v2/jjr_user_login/scan_code_login', params).then((res) => {
+          console.log('1')
+          $('#qr_code').html('')                        //清除二维码
+          var qrcode = new QRCode('qr_code', {
+              text: res.body.result.scanCode,
+              width: 150,
+              height: 150,colorDark : "#000000",
+              colorLight : "#ffffff",
+              correctLevel : QRCode.CorrectLevel.H
+          })
+          // this.scanCode = res.body.result.scanCode.split(":")[1]
+          // var $t = setInterval(this.showQrCode(), 1000)
+        })
+      },
       sendTestCode() {
         let params = {phone: this.ruleForm2.forget_phone, type: 2}
         this.$http.post('/v2/register/get_validateCode', params).then((res) => {

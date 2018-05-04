@@ -4,8 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 
 import Login from '../pages/login'
 import Regist from '../pages/regist'
-
-import MyInput from '../components/MyInput'
+import Home from '../pages/home'
 Vue.use(Router)
 
 export default new Router({
@@ -24,6 +23,11 @@ export default new Router({
       path: '/regist',
       name: 'Regist',
       component: Regist
+    },
+    {
+      path: '/home',
+      name: 'Home',
+      component: Home
     }
   ]
 })
