@@ -14,7 +14,10 @@ export default {
   },
   methods: {
     async getData () {
-      await this.$request(serviceApi.listProduct)
+      const { code, data } = await this.$request(serviceApi.listProduct)
+      if (code) {
+        console.log(data)
+      }
     }
   },
   mounted () {

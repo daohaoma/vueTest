@@ -27,7 +27,8 @@ plugin.install = function (Vue, option) {
           }
         })
         .then((response) => {
-          resolve(response)
+          const data = JSON.parse(response)
+          resolve(data)
         })
         .catch((err) => {
           reject(new Error(err))
