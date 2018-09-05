@@ -10,11 +10,19 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/personnel': {
+        target: 'https://devq.qiaofin.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/personnel': '/personnel'
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 6300, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 6301, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
